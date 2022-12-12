@@ -1,6 +1,5 @@
 namespace Exceptions
 {
-    // TODO understand the functioning of this class
     public class FixedSizeQueue : IFixedSizeQueue
     {
         private object[] _items;
@@ -19,15 +18,21 @@ namespace Exceptions
 
         public object GetFirst()
         {
-            // TODO ensure objects can only be retrieve if the item is queue is not empty
+            if (Count == 0)
+            {
+                throw new EmptyQueueException("The queue is currently empty. No item can be retrieved.");
+            }
             var first = _items[_firstIndex % Capacity];
             _firstIndex++;
             return first;
         }
-        
+
         public void AddLast(object item)
         {
-            // TODO ensure objects can only be inserted if the item is queue is not full
+            if (Count == Capacity)
+            {
+                throw new FullQueueException("The queue is currently full. No more items can be appended.");
+            }
             _items[_lastIndex % Capacity] = item;
             _lastIndex++;
         }
